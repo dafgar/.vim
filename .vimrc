@@ -27,6 +27,9 @@ Plugin 'vim-scripts/AutoTag'
 "Old but valid erlang support files
 Plugin 'Vimerl'
 
+"Python support module
+Plugin 'Python-mode-klen'
+
 call vundle#end()
 "Vundle section stop.
 
@@ -60,6 +63,8 @@ function UpdateColorScheme()
         highlight WarningMsg term=standout  cterm=bold  ctermfg=grey guifg=Red
         highlight Error	term=reverse ctermfg=darkcyan ctermbg=red guifg=Red guibg=Black
         highlight Search cterm=bold ctermfg=darkcyan
+        highlight pythonBuiltinType cterm=bold ctermfg=brown
+        highlight pythonClass cterm=bold ctermfg=brown
     elseif g:colors_name == "blue"
         highlight Folded ctermbg=4
     endif
@@ -98,7 +103,27 @@ set autochdir
 let g:erlangHighlightBif=1
 let g:erlangFold=0
 
-let g:NERDTreeWinPos = 'right'
+let g:NERDTreeWinPos='right'
+
+"Python-mode
+"let g:pymode_python = 'python3'
+let g:pymode_folding=0
+let g:pymode_trim_whitespaces=0
+let g:pymode_options_max_line_length=79
+let g:pymode_options_colorcolumn=1
+
+let g:pymode_lint=1
+let g:pymode_lint_checkers=['pyflakes', 'pep8', 'mccabe']
+let g:pymode_lint_unmodified=1
+let g:pymode_quickfix_minheight=1
+let g:pymode_quickfix_maxheight=1
+let g:pymode_lint_ignore='C901'
+
+let g:pymode_rope_goto_definition_cmd='e'
+
+let g:pymode_syntax_highlight_equal_operator=0
+let g:pymode_syntax_highlight_self=0
+
 
 map <F1> :ls<CR>:b<Space>
 map <F3> <C-]><CR>

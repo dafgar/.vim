@@ -19,3 +19,6 @@
 [submodule "bundle/Vimerl"]
 	path = bundle/Vimerl
 	url = https://github.com/vim-scripts/Vimerl.git
+[submodule "bundle/Python-mode-klen"]
+	path = bundle/Python-mode-klen
+	url = https://github.com/vim-scripts/Python-mode-klen.git
