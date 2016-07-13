@@ -24,6 +24,9 @@ Plugin 'vim-scripts/AutoClose'
 "Rerun ctags when files changed
 Plugin 'vim-scripts/AutoTag'
 
+"Old but valid erlang support files
+Plugin 'Vimerl'
+
 call vundle#end()
 "Vundle section stop.
 
