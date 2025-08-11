@@ -1,61 +1,107 @@
 syntax on
 
-set number
-
-"Vundle required.
-set nocompatible
-
-"Vundle section start.
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'gmarik/Vundle.vim'
-
-"Plugin to mass comment.
-Plugin 'scrooloose/nerdcommenter'
-
-"Nerd directory tree navigation
-Plugin 'scrooloose/nerdtree'
-
-"Git plugin + tags
-Plugin 'tpope/vim-fugitive'
-
-"Auto close braces
-Plugin 'vim-scripts/AutoClose'
-
-"Rerun ctags when files changed
-Plugin 'vim-scripts/AutoTag'
-
-"Old but valid erlang support files
-Plugin 'Vimerl'
-
-"Python support module
-Plugin 'Python-mode-klen'
-
-call vundle#end()
-"Vundle section stop.
-
 "Turn on identation.
 filetype indent on
 
 "Turn on plugin loading.
 filetype plugin on
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"Less compartible with vi
+set nocompatible
+
+"Change cwd with newly open file
+set autochdir
+
+"Hide buffers when abandon, rather then delete it
+set hidden
+
+"Ignore case in pattern
+set ignorecase
+
 "Tabs to whitespaces.
 set expandtab
 set tabstop=4
-set shiftwidth=4
-"set smartindent
+set shiftwidth=0  "use tabstop value for >>, <<, cindent
+set cindent
 
-"Highlight long lines.
-"highlight OverLength ctermfg=111
-"autocmd ColorScheme * highlight OverLength ctermfg=111
-"match OverLength /\%80v.\+/
+"Persistent undo
+set undofile
+set undodir=~/.vim/undo
+set undolevels=1000
+set undoreload=100000
 
-"Highlight trailing whitespaces.
-highlight ExtraWhiteSpace ctermbg=red
-autocmd ColorScheme * highlight ExtraWhiteSpace ctermbg=red
-match ExtraWhitespace /\s\+$/
+"Show line numbers
+set number
+"No wrap long string
+set nowrap
+"Highlight cursorline
+set cursorline
+"Always show statusline
+set laststatus=2
+
+"Increase help buffer height
+set helpheight=80
+
+"Completition mode.
+set wildmode=longest:list
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""Plugin manager
+
+"vim-plug section begin
+call plug#begin()
+
+"Plugin to mass comment.
+Plug 'scrooloose/nerdcommenter'
+
+"Nerd directory tree navigation
+Plug 'scrooloose/nerdtree'
+
+"Linting and LSP over vim-lsp
+Plug 'dense-analysis/ale'
+
+"LSP client
+Plug 'prabirshrestha/vim-lsp'
+
+"Bridge beetwen vim-lsp and ALE
+Plug 'rhysd/vim-lsp-ale'
+
+"Semantic highlighting
+"Plug 'jackguo380/vim-lsp-cxx-highlight'
+
+"Python support module
+Plug 'python-mode/python-mode'
+
+call plug#end()
+"vim-plug section end
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"Vundle section start.
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
+"
+"Plugin 'gmarik/Vundle.vim'
+"
+""Git plugin + tags
+"Plugin 'tpope/vim-fugitive'
+"
+""Auto close braces
+"Plugin 'vim-scripts/AutoClose'
+"
+""Rerun ctags when files changed
+"Plugin 'vim-scripts/AutoTag'
+"
+""Old but valid erlang support files
+"Plugin 'Vimerl'
+"
+"call vundle#end()
+"Vundle section stop.
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""Colorscheme
 
 function UpdateColorScheme()
     if g:colors_name == "koehler"
@@ -76,56 +122,32 @@ autocmd ColorScheme * call UpdateColorScheme()
 colorscheme koehler
 set t_Co=256
 
-set cursorline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set ignorecase
+"Highlight long lines.
+"highlight OverLength ctermfg=111
+"autocmd ColorScheme * highlight OverLength ctermfg=111
+"match OverLength /\%80v.\+/
 
-set nowrap
+"Highlight trailing whitespaces.
+highlight ExtraWhiteSpace ctermbg=red
+autocmd ColorScheme * highlight ExtraWhiteSpace ctermbg=red
+match ExtraWhitespace /\s\+$/
 
-" Persistent undo
-set undofile
-set undodir=~/.vim/undo
-set undolevels=1000
-set undoreload=100000
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""Plugin settings
 
-"Always show statusline
-set laststatus=2
+let g:ale_completion_enabled = 1
+let g:ale_hover_cursor=1
+let g:ale_hover_to_preview=0
+let g:ale_set_balloons=1
 
-"Increase help buffer height
-set helpheight=80
-
-"Hide buffers when abandon, rather then delete it
-set hidden
-
-"Completition mode.
-set wildmode=longest,list
-
-set autochdir
-
-let g:erlangHighlightBif=1
-let g:erlangFold=0
+let g:lsp_semantic_enabled=1
 
 let g:NERDTreeWinPos='right'
 
-"Python-mode
-"let g:pymode_python = 'python3'
-let g:pymode_folding=0
-let g:pymode_trim_whitespaces=0
-let g:pymode_options_max_line_length=79
-let g:pymode_options_colorcolumn=1
-
-let g:pymode_lint=1
-let g:pymode_lint_checkers=['pyflakes', 'pep8', 'mccabe']
-let g:pymode_lint_unmodified=1
-let g:pymode_quickfix_minheight=1
-let g:pymode_quickfix_maxheight=1
-let g:pymode_lint_ignore='C901'
-
-let g:pymode_rope_goto_definition_cmd='e'
-
-let g:pymode_syntax_highlight_equal_operator=0
-let g:pymode_syntax_highlight_self=0
-
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""Key mapping
 
 map <F1> :ls<CR>:b<Space>
 map <F3> <C-]><CR>
