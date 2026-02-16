@@ -65,6 +65,10 @@ Plug 'dense-analysis/ale'
 "LSP client
 Plug 'prabirshrestha/vim-lsp'
 
+"Asynccomplete for LSP
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
 "Bridge beetwen vim-lsp and ALE
 Plug 'rhysd/vim-lsp-ale'
 
@@ -73,6 +77,16 @@ Plug 'rhysd/vim-lsp-ale'
 
 "Python support module
 Plug 'python-mode/python-mode'
+
+"Autoclose brakets
+Plug 'Raimondi/delimitMate'
+
+"Verical bars at indentation
+Plug 'Yggdroot/indentLine'
+
+"Parentheses and identation for lisp
+"Quite broken
+"Plug 'eraserhd/parinfer-rust'
 
 call plug#end()
 "vim-plug section end
@@ -87,9 +101,6 @@ call plug#end()
 "
 ""Git plugin + tags
 "Plugin 'tpope/vim-fugitive'
-"
-""Auto close braces
-"Plugin 'vim-scripts/AutoClose'
 "
 ""Rerun ctags when files changed
 "Plugin 'vim-scripts/AutoTag'
@@ -141,23 +152,80 @@ let g:ale_completion_enabled = 1
 let g:ale_hover_cursor=1
 let g:ale_hover_to_preview=0
 let g:ale_set_balloons=1
+let g:ale_virtualtext_cursor=0
 
+noremap  <F6> :ALENextWrap<CR>
+noremap! <F6> <Esc>:ALENextWrap<CR>
+noremap  <F7> :ALEPreviousWrap <CR>
+noremap! <F7> <Esc>:ALEPreviousWrap <CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"let g:lsp_log_verbose = 0
+"let g:lsp_log_file = expand('~/vim-lsp.log')
+
+let g:lsp_completion_documentation_enabled=0
+let g:lsp_diagnostics_enabled=1
 let g:lsp_semantic_enabled=1
+let g:lsp_use_lua=1  "for performance
+let g:lsp_auto_enable = 1
+let g:lsp_ale_diagnostics_severity='hint'
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    nmap <buffer> <C-]> <plug>(lsp-definition)
+    noremap  <F4> :LspHover<CR>
+    noremap! <F4> <Esc>:LspHover<CR>
+    noremap  <F5> :LspCodeAction<CR>
+    noremap! <F5> <Esc>:LspCodeAction<CR>
+    nmap <buffer> <F8> <plug>(lsp-rename)
+endfunction
+
+augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:asyncomplete_auto_popup=0
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ asyncomplete#force_refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:NERDTreeWinPos='right'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+"let g:indentLine_char = '┊'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""Code
+
+"Jump to the latest cursor place
+autocmd BufReadPost * silent! normal! g`"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """Key mapping
 
-map <F1> :ls<CR>:b<Space>
-map <F3> <C-]><CR>
-map <F4> :NERDTreeToggle<CR>
-map <F7> <Esc>:bp<CR>
-map <F8> <Esc>:bn<CR>
-map <F9> <Esc>:e 
+noremap  <F1> :ls<CR>:b<Space>
+noremap! <F1> <Esc>:ls<CR>:b<Space>
+noremap  <F9> :NERDTreeToggle<CR>
 
-"map <A-CR> O<Esc>j
-"map <CR> o<Esc>k
+noremap  no    A<CR><Esc>
+noremap  nO    0i<CR><Esc>k
 
 map <Esc>Oq 1
 map <Esc>Or 2
@@ -174,7 +242,6 @@ map <Esc>OQ /
 map <Esc>OR *
 map <Esc>Ol +
 
-set tags=.tags,tags
+"set tags=.tags,tags
 
 "map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
-
