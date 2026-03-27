@@ -1,3 +1,7 @@
+" mark 120-th column
+setlocal colorcolumn=120
+highlight ColorColumn ctermbg=darkgray
+
 "if executable('ccls')
 "    au User lsp_setup call lsp#register_server({
 "        \ 'name': 'ccls',
