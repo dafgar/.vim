@@ -40,6 +40,8 @@ set nowrap
 set cursorline
 "Always show statusline
 set laststatus=2
+"Status line
+set statusline=%<%F\ %h%w%m%r%=%-14.(%n,%l/%L,%c%)\ %P
 
 "Increase help buffer height
 set helpheight=80
