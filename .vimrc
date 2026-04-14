@@ -83,6 +83,9 @@ Plug 'python-mode/python-mode'
 "Autoclose brakets
 Plug 'Raimondi/delimitMate'
 
+"git integration
+Plug 'tpope/vim-fugitive'
+
 "Verical bars at indentation
 Plug 'Yggdroot/indentLine'
 
@@ -126,6 +129,10 @@ function UpdateColorScheme()
         highlight Search cterm=bold ctermfg=darkcyan
         highlight pythonBuiltinType cterm=bold ctermfg=brown
         highlight pythonClass cterm=bold ctermfg=brown
+        highlight DiffAdd term=bold ctermbg=17 guibg=#2a0d6a
+        highlight DiffDelete term=bold ctermfg=234 ctermbg=60 guifg=#242424 guibg=#3e3969
+        highlight DiffText term=reverse ctermbg=53 guibg=#73186e
+        highlight DiffChange term=bold ctermbg=237 guibg=#382a37
     elseif g:colors_name == "blue"
         highlight Folded ctermbg=4
     endif
