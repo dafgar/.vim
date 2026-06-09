@@ -219,6 +219,7 @@ let g:NERDTreeWinPos='right'
 
 "let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 "let g:indentLine_char = '┊'
+let g:indentLine_fileTypeExclude = ['json']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """Code
